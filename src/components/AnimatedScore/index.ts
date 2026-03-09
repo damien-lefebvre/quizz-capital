@@ -1,0 +1,1 @@
+export { AnimatedScore } from "./AnimatedScore";

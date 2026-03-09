@@ -1,3 +1,4 @@
+export { AnimatedScore } from "./AnimatedScore";
 export { DataStats } from "./DataStats";
 export { CapitalRater } from "./CapitalRater";
 export { Question } from "./Question";

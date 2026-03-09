@@ -1,5 +1,6 @@
 import { useGame } from "../../contexts";
 import { useGameHistory } from "../../hooks";
+import { AnimatedScore } from "../AnimatedScore";
 import "./GameHeader.scss";
 
 // =============================================================================
@@ -100,9 +101,10 @@ export function GameHeader() {
             )}
             <span className="game-header__score-label">Score</span>
           </div>
-          <span className="game-header__score-value">
-            {Math.floor(score.points)}
-          </span>
+          <AnimatedScore
+            value={score.points}
+            className="game-header__score-value"
+          />
         </div>
 
         {/* Right section - Combo */}

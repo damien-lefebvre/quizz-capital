@@ -1,0 +1,20 @@
+@use "../../styles/variables" as *;
+
+// =============================================================================
+// Animated Score Component
+// =============================================================================
+
+.animated-score {
+  font-family: "Orbitron", "Courier New", monospace;
+  font-size: $font-size-2xl;
+  font-weight: $font-weight-bold;
+  color: $color-accent-primary;
+  line-height: 1.2;
+  transition: text-shadow 0.1s ease-out;
+
+  &[data-animating="true"] {
+    text-shadow:
+      0 0 8px rgba($color-accent-primary, 0.6),
+      0 0 16px rgba($color-accent-primary, 0.3);
+  }
+}
