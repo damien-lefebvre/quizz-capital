@@ -29,8 +29,6 @@ export function GameSummary({
   score,
   maxCombo,
 }: GameSummaryProps) {
-  const capitalsPercent =
-    capitalsTotal > 0 ? Math.round((capitalsFound / capitalsTotal) * 100) : 0;
   const flagsPercent =
     flagsTotal > 0 ? Math.round((flagsCorrect / flagsTotal) * 100) : 0;
 
@@ -42,18 +40,17 @@ export function GameSummary({
       {/* Stats row */}
       <div className="game-summary__stats">
         <div className="game-summary__stat">
-          <span className="game-summary__stat-percent">{capitalsPercent}%</span>
-          <span className="game-summary__stat-label">Capitales</span>
-          <span className="game-summary__stat-detail">
-            {capitalsFound}/{capitalsTotal}
+          <span className="game-summary__stat-fraction">
+            <span className="game-summary__stat-primary">{capitalsFound}</span>
+            <span className="game-summary__stat-secondary">
+              /{capitalsTotal}
+            </span>
           </span>
+          <span className="game-summary__stat-label">Capitales</span>
         </div>
         <div className="game-summary__stat">
           <span className="game-summary__stat-percent">{flagsPercent}%</span>
           <span className="game-summary__stat-label">Drapeaux</span>
-          <span className="game-summary__stat-detail">
-            {flagsCorrect}/{flagsTotal}
-          </span>
         </div>
       </div>
 
@@ -103,7 +100,7 @@ export function GameSummary({
       {/* Score row */}
       <div className="game-summary__totals">
         <div className="game-summary__total">
-          <span className="game-summary__total-value">{score}</span>
+          <span className="game-summary__total-value">{Math.floor(score)}</span>
           <span className="game-summary__total-label">Score</span>
         </div>
         <div className="game-summary__total">

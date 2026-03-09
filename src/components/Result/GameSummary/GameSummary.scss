@@ -34,6 +34,25 @@
   color: $color-accent-primary;
 }
 
+.game-summary__stat-fraction {
+  display: flex;
+  gap: $spacing-xs;
+  align-items: baseline;
+}
+
+.game-summary__stat-primary {
+  font-family: "Orbitron", "Courier New", monospace;
+  font-size: $font-size-2xl;
+  font-weight: $font-weight-bold;
+  color: $color-accent-primary;
+}
+
+.game-summary__stat-secondary {
+  font-family: "Orbitron", "Courier New", monospace;
+  font-size: $font-size-md;
+  color: $color-text-muted;
+}
+
 .game-summary__stat-label {
   font-size: $font-size-sm;
   color: $color-text-muted;

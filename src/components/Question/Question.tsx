@@ -211,7 +211,7 @@ export function Question() {
                   <span className="question__points-operator">=</span>
                   <div className="question__points-item question__points-item--total">
                     <span className="question__points-value">
-                      +{pointsEarned}
+                      +{Math.floor(pointsEarned)}
                     </span>
                     <span className="question__points-label">Total</span>
                   </div>

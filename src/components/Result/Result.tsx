@@ -37,9 +37,6 @@ export function Result() {
   // Get top 5 scores (includes the game we just saved)
   const topScores = getTopScores(5);
 
-  // Check if current score is in top 5
-  const isNewHighScore = topScores.some((g) => g.score === score.points);
-
   // Check for perfect score (100% capitals AND 100% flags)
   const isPerfectScore =
     stats.flagsAsked > 0 &&
@@ -63,7 +60,7 @@ export function Result() {
         ) : (
           <h1 className="result__title result__title--defeat">Défaite</h1>
         )}
-        {isNewHighScore && (
+        {topScores[0]?.score === score.points && !isPerfectScore && (
           <span className="result__highscore-badge">nouveau highscore</span>
         )}
       </header>

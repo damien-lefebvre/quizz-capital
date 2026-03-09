@@ -144,6 +144,23 @@
   color: $color-text-primary;
 }
 
+.high-scores__fraction {
+  display: flex;
+  gap: $spacing-xxs;
+  align-items: baseline;
+}
+
+.high-scores__fraction-primary {
+  font-size: $font-size-sm;
+  font-weight: $font-weight-bold;
+  color: $color-text-primary;
+}
+
+.high-scores__fraction-secondary {
+  font-size: 10px;
+  color: $color-text-muted;
+}
+
 .high-scores__detail {
   font-size: 10px;
   color: $color-text-muted;

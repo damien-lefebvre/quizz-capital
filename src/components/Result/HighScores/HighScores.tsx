@@ -81,14 +81,13 @@ export function HighScores({ scores, currentScore }: HighScoresProps) {
 
               {/* Capitals */}
               <div className="high-scores__col high-scores__col--stat">
-                <span className="high-scores__percent">
-                  {formatPercent(
-                    record.capitalsFound,
-                    record.capitalsAttempted,
-                  )}
-                </span>
-                <span className="high-scores__detail">
-                  ({record.capitalsFound}/{record.capitalsAttempted})
+                <span className="high-scores__fraction">
+                  <span className="high-scores__fraction-primary">
+                    {record.capitalsFound}
+                  </span>
+                  <span className="high-scores__fraction-secondary">
+                    /{record.capitalsAttempted}
+                  </span>
                 </span>
               </div>
 
@@ -96,9 +95,6 @@ export function HighScores({ scores, currentScore }: HighScoresProps) {
               <div className="high-scores__col high-scores__col--stat">
                 <span className="high-scores__percent">
                   {formatPercent(record.flagsFound, record.flagsAttempted)}
-                </span>
-                <span className="high-scores__detail">
-                  ({record.flagsFound}/{record.flagsAttempted})
                 </span>
               </div>
 
@@ -112,7 +108,9 @@ export function HighScores({ scores, currentScore }: HighScoresProps) {
 
               {/* Score */}
               <div className="high-scores__col high-scores__col--score">
-                <span className="high-scores__score-value">{record.score}</span>
+                <span className="high-scores__score-value">
+                  {Math.floor(record.score)}
+                </span>
               </div>
             </div>
           );
