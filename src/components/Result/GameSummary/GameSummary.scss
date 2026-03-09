@@ -133,6 +133,43 @@
   max-width: 100%;
 }
 
+// Interactive error items
+.game-summary__error-item {
+  cursor: pointer;
+  transition:
+    filter 0.3s ease,
+    transform 0.2s ease;
+
+  &:hover {
+    transform: scale(1.05);
+  }
+}
+
+// Blurred state for capitals
+.game-summary__error-capital--blurred {
+  filter: blur(2px);
+  user-select: none;
+}
+
+// Revealed state (overrides blur)
+.game-summary__error-item--revealed {
+  &.game-summary__error-capital--blurred {
+    filter: blur(0);
+    animation: reveal-unblur 0.3s ease-out;
+  }
+}
+
+@keyframes reveal-unblur {
+  from {
+    filter: blur(2px);
+    transform: scale(0.95);
+  }
+  to {
+    filter: blur(0);
+    transform: scale(1);
+  }
+}
+
 // =============================================================================
 // Totals Row
 // =============================================================================

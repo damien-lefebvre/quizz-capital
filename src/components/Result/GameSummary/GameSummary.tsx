@@ -1,3 +1,4 @@
+import { useState } from "react";
 import type { Country } from "../../../countries";
 import { getFlagUrl } from "../../../utils";
 import "./GameSummary.scss";
@@ -35,6 +36,15 @@ export function GameSummary({
   // Take only the last 5 failed countries for display
   const displayedErrors = failedCountries.slice(-5);
 
+  // Track which countries have been revealed
+  const [revealedCountries, setRevealedCountries] = useState<Set<string>>(
+    new Set(),
+  );
+
+  const handleReveal = (iso: string) => {
+    setRevealedCountries((prev) => new Set(prev).add(iso));
+  };
+
   return (
     <div className="game-summary">
       {/* Stats row */}
@@ -61,10 +71,12 @@ export function GameSummary({
           {/* Row 1: Flags */}
           {displayedErrors.map((country) => {
             const flagUrl = getFlagUrl(country.iso);
+            const isRevealed = revealedCountries.has(country.iso);
             return (
               <div
                 key={`flag-${country.iso}`}
-                className="game-summary__error-cell"
+                className={`game-summary__error-cell game-summary__error-item ${isRevealed ? "game-summary__error-item--revealed" : ""}`}
+                onClick={() => handleReveal(country.iso)}
               >
                 {flagUrl && (
                   <img
@@ -77,23 +89,31 @@ export function GameSummary({
             );
           })}
           {/* Row 2: Country names */}
-          {displayedErrors.map((country) => (
-            <span
-              key={`name-${country.iso}`}
-              className="game-summary__error-country"
-            >
-              {country.name}
-            </span>
-          ))}
+          {displayedErrors.map((country) => {
+            const isRevealed = revealedCountries.has(country.iso);
+            return (
+              <span
+                key={`name-${country.iso}`}
+                className={`game-summary__error-country game-summary__error-item ${isRevealed ? "game-summary__error-item--revealed" : ""}`}
+                onClick={() => handleReveal(country.iso)}
+              >
+                {country.name}
+              </span>
+            );
+          })}
           {/* Row 3: Capitals */}
-          {displayedErrors.map((country) => (
-            <span
-              key={`capital-${country.iso}`}
-              className="game-summary__error-capital"
-            >
-              {country.capital}
-            </span>
-          ))}
+          {displayedErrors.map((country) => {
+            const isRevealed = revealedCountries.has(country.iso);
+            return (
+              <span
+                key={`capital-${country.iso}`}
+                className={`game-summary__error-capital game-summary__error-item game-summary__error-capital--blurred ${isRevealed ? "game-summary__error-item--revealed" : ""}`}
+                onClick={() => handleReveal(country.iso)}
+              >
+                {country.capital}
+              </span>
+            );
+          })}
         </div>
       </div>
 
