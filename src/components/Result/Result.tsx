@@ -35,7 +35,14 @@ export function Result() {
   }, [addGame, score.points, stats, failedCountries, maxCombo]);
 
   // Get top 5 scores (includes the game we just saved)
-  const topScores = getTopScores(5);
+  const topScores = getTopScores(10);
+
+  // Find the ID of the current game (most recently added with current score)
+  const currentRecordId = topScores
+    .filter((r) => r.score === score.points)
+    .sort(
+      (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime(),
+    )[0]?.id;
 
   // Check for perfect score (100% capitals AND 100% flags)
   const isPerfectScore =
@@ -85,7 +92,7 @@ export function Result() {
 
         {/* High Scores Section - 50% */}
         <section className="result__section result__section--highscores">
-          <HighScores scores={topScores} currentScore={score.points} />
+          <HighScores scores={topScores} currentRecordId={currentRecordId} />
         </section>
       </main>
 

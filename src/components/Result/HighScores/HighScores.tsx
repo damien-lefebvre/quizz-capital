@@ -7,7 +7,7 @@ import "./HighScores.scss";
 
 interface HighScoresProps {
   scores: GameRecord[];
-  currentScore?: number;
+  currentRecordId?: string;
 }
 
 // =============================================================================
@@ -32,7 +32,7 @@ function formatPercent(found: number, total: number): string {
 // Component
 // =============================================================================
 
-export function HighScores({ scores, currentScore }: HighScoresProps) {
+export function HighScores({ scores, currentRecordId }: HighScoresProps) {
   if (scores.length === 0) {
     return (
       <div className="high-scores">
@@ -49,12 +49,9 @@ export function HighScores({ scores, currentScore }: HighScoresProps) {
       {/* Table Header */}
       <div className="high-scores__header">
         <span className="high-scores__col high-scores__col--rank"></span>
-        <span className="high-scores__col high-scores__col--stat">
-          Capitales
-        </span>
-        <span className="high-scores__col high-scores__col--stat">
-          Drapeaux
-        </span>
+        <span className="high-scores__col high-scores__col--date"></span>
+        <span className="high-scores__col high-scores__col--stat">Cap.</span>
+        <span className="high-scores__col high-scores__col--stat">Drap.</span>
         <span className="high-scores__col high-scores__col--combo">Combo</span>
         <span className="high-scores__col high-scores__col--score">Score</span>
       </div>
@@ -63,7 +60,7 @@ export function HighScores({ scores, currentScore }: HighScoresProps) {
       <div className="high-scores__list">
         {scores.map((record, index) => {
           const isCurrent =
-            currentScore !== undefined && record.score === currentScore;
+            currentRecordId !== undefined && record.id === currentRecordId;
           const rank = index + 1;
 
           return (
@@ -71,9 +68,13 @@ export function HighScores({ scores, currentScore }: HighScoresProps) {
               key={record.id}
               className={`high-scores__row ${isCurrent ? "high-scores__row--current" : ""}`}
             >
-              {/* Rank + Date */}
+              {/* Rank */}
               <div className="high-scores__col high-scores__col--rank">
                 <span className="high-scores__rank">#{rank}</span>
+              </div>
+
+              {/* Date */}
+              <div className="high-scores__col high-scores__col--date">
                 <span className="high-scores__date">
                   {formatDate(record.date)}
                 </span>
