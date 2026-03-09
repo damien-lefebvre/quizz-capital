@@ -6,6 +6,10 @@ export interface Country {
   capitalLevel: number;
   /** Difficulty level from 1 to 3 for flag (1=easy, 3=hard) */
   flagLevel: number;
+  /** Allow mapping for data saved before fixing */
+  retro?: {
+    capital?: [string];
+  };
 }
 
 export const countries: Country[] = [
@@ -551,10 +555,13 @@ export const countries: Country[] = [
   },
   {
     name: "Sri Lanka",
-    capital: "Sri Jayawardenepura Kotte",
+    capital: "(Sri Jayawardenepura) Kotte",
     iso: "lk",
     flagLevel: 4,
     capitalLevel: 9,
+    retro: {
+      capital: ["Sri Jayawardenepura Kotte"],
+    },
   },
   {
     name: "Oman",
@@ -877,10 +884,13 @@ export const countries: Country[] = [
   },
   {
     name: "Guinée équatoriale",
-    capital: "Malabo",
+    capital: "Ciudad de la Paz",
     iso: "gq",
     flagLevel: 5,
     capitalLevel: 10,
+    retro: {
+      capital: ["Malabo"],
+    },
   },
   {
     name: "Rép. dém. du Congo",
