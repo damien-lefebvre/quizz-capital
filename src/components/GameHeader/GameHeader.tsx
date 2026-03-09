@@ -1,5 +1,29 @@
 import { useGame } from "../../contexts";
+import { useGameHistory } from "../../hooks";
 import "./GameHeader.scss";
+
+// =============================================================================
+// Helper Functions
+// =============================================================================
+
+function getCurrentRank(
+  currentScore: number,
+  topScores: { score: number }[],
+): number | null {
+  if (currentScore <= 0) return null;
+
+  // Find where current score would rank (1-indexed)
+  let rank = 1;
+  for (const record of topScores) {
+    if (currentScore > record.score) {
+      break;
+    }
+    rank++;
+  }
+
+  // Only return rank if it's in top 5
+  return rank <= 5 ? rank : null;
+}
 
 // =============================================================================
 // Component
@@ -7,6 +31,11 @@ import "./GameHeader.scss";
 
 export function GameHeader() {
   const { score, combo, life, stats } = useGame();
+  const { getTopScores } = useGameHistory();
+
+  // Calculate current rank in top 10
+  const topScores = getTopScores(10);
+  const currentRank = getCurrentRank(score.points, topScores);
 
   // Check if game has started (at least one question asked)
   const gameStarted = stats.flagsAsked > 0;
@@ -63,7 +92,14 @@ export function GameHeader() {
 
         {/* Center section - Score */}
         <div className="game-header__center">
-          <span className="game-header__score-label">Score</span>
+          <div className="game-header__score-label-container">
+            {currentRank && (
+              <span key={currentRank} className="game-header__rank">
+                #{currentRank}
+              </span>
+            )}
+            <span className="game-header__score-label">Score</span>
+          </div>
           <span className="game-header__score-value">
             {Math.floor(score.points)}
           </span>

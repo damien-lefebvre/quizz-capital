@@ -80,6 +80,13 @@
   justify-content: center;
 }
 
+.game-header__score-label-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .game-header__score-label {
   font-size: $font-size-xs;
   color: $color-text-muted;
@@ -94,6 +101,28 @@
   font-weight: $font-weight-bold;
   color: $color-accent-primary;
   line-height: 1.2;
+}
+
+.game-header__rank {
+  position: absolute;
+  right: 100%;
+  margin-right: $spacing-xs;
+  font-family: "Orbitron", "Courier New", monospace;
+  font-size: $font-size-md;
+  font-weight: $font-weight-bold;
+  color: $color-accent-warning;
+  animation: rankAppear 0.4s ease-out;
+}
+
+@keyframes rankAppear {
+  0% {
+    transform: translateY(-40px) scale(4);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
 }
 
 // =============================================================================
