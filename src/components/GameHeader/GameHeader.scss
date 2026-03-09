@@ -145,9 +145,9 @@
 
 .game-header__lives {
   display: flex;
-  justify-content: space-evenly;
+  justify-content: space-between;
   align-items: center;
-  width: 80%;
+  width: 70%;
   padding: $spacing-sm $spacing-md;
   background-color: $color-bg-tertiary;
   border: 1px solid $color-border;
