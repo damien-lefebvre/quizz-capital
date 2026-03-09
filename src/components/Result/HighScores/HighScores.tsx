@@ -28,6 +28,15 @@ function formatPercent(found: number, total: number): string {
   return `${Math.round((found / total) * 100)}%`;
 }
 
+function isPerfectScore(record: GameRecord): boolean {
+  return (
+    record.capitalsFound === record.capitalsAttempted &&
+    record.flagsFound === record.flagsAttempted &&
+    record.capitalsAttempted > 0 &&
+    record.flagsAttempted > 0
+  );
+}
+
 // =============================================================================
 // Component
 // =============================================================================
@@ -62,11 +71,12 @@ export function HighScores({ scores, currentRecordId }: HighScoresProps) {
           const isCurrent =
             currentRecordId !== undefined && record.id === currentRecordId;
           const rank = index + 1;
+          const perfect = isPerfectScore(record);
 
           return (
             <div
               key={record.id}
-              className={`high-scores__row ${isCurrent ? "high-scores__row--current" : ""}`}
+              className={`high-scores__row ${isCurrent ? "high-scores__row--current" : ""} ${perfect ? "high-scores__row--perfect" : ""}`}
             >
               {/* Rank */}
               <div className="high-scores__col high-scores__col--rank">
@@ -80,39 +90,50 @@ export function HighScores({ scores, currentRecordId }: HighScoresProps) {
                 </span>
               </div>
 
-              {/* Capitals */}
-              <div className="high-scores__col high-scores__col--stat">
-                <span className="high-scores__fraction">
-                  <span className="high-scores__fraction-primary">
-                    {record.capitalsFound}
+              {perfect ? (
+                /* Perfect Score - spans all stats columns */
+                <div className="high-scores__col high-scores__col--perfect">
+                  <span className="high-scores__perfect-label">
+                    ✨ Perfect Score ✨
                   </span>
-                  <span className="high-scores__fraction-secondary">
-                    /{record.capitalsAttempted}
-                  </span>
-                </span>
-              </div>
+                </div>
+              ) : (
+                <>
+                  {/* Capitals */}
+                  <div className="high-scores__col high-scores__col--stat">
+                    <span className="high-scores__fraction">
+                      <span className="high-scores__fraction-primary">
+                        {record.capitalsFound}
+                      </span>
+                      <span className="high-scores__fraction-secondary">
+                        /{record.capitalsAttempted}
+                      </span>
+                    </span>
+                  </div>
 
-              {/* Flags */}
-              <div className="high-scores__col high-scores__col--stat">
-                <span className="high-scores__percent">
-                  {formatPercent(record.flagsFound, record.flagsAttempted)}
-                </span>
-              </div>
+                  {/* Flags */}
+                  <div className="high-scores__col high-scores__col--stat">
+                    <span className="high-scores__percent">
+                      {formatPercent(record.flagsFound, record.flagsAttempted)}
+                    </span>
+                  </div>
 
-              {/* Combo */}
-              <div className="high-scores__col high-scores__col--combo">
-                <span className="high-scores__combo-value">
-                  {record.maxCombo}
-                </span>
-                <span className="high-scores__combo-icon">🔥</span>
-              </div>
+                  {/* Combo */}
+                  <div className="high-scores__col high-scores__col--combo">
+                    <span className="high-scores__combo-value">
+                      {record.maxCombo}
+                    </span>
+                    <span className="high-scores__combo-icon">🔥</span>
+                  </div>
 
-              {/* Score */}
-              <div className="high-scores__col high-scores__col--score">
-                <span className="high-scores__score-value">
-                  {Math.floor(record.score)}
-                </span>
-              </div>
+                  {/* Score */}
+                  <div className="high-scores__col high-scores__col--score">
+                    <span className="high-scores__score-value">
+                      {Math.floor(record.score)}
+                    </span>
+                  </div>
+                </>
+              )}
             </div>
           );
         })}

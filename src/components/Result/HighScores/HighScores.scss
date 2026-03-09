@@ -188,3 +188,30 @@
   font-weight: $font-weight-bold;
   color: $color-accent-primary;
 }
+
+// =============================================================================
+// Perfect Score
+// =============================================================================
+
+.high-scores__row--perfect {
+  grid-template-columns: 40px 60px 1fr;
+  background: linear-gradient(
+    135deg,
+    rgba($color-accent-warning, 0.15) 0%,
+    rgba($color-accent-primary, 0.15) 100%
+  );
+}
+
+.high-scores__col--perfect {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.high-scores__perfect-label {
+  font-size: $font-size-sm;
+  font-weight: $font-weight-bold;
+  color: $color-accent-warning;
+  text-align: center;
+  letter-spacing: 0.5px;
+}
