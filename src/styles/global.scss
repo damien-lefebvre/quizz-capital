@@ -1,0 +1,50 @@
+@use "variables" as *;
+@use "mixins" as *;
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body {
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+}
+
+body {
+  font-family: $font-family;
+  font-size: $font-size-md;
+  line-height: 1.5;
+  color: $color-text-primary;
+  background-color: $color-bg-primary;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#root {
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+}
+
+// App Layout
+.app {
+  @include flex-column;
+  height: 100%;
+  width: 100%;
+  max-width: $max-width-mobile;
+  margin: 0 auto;
+  background-color: $color-bg-primary;
+  overflow: hidden;
+
+  @include desktop {
+    height: 100vh;
+    border-left: 1px solid $color-border;
+    border-right: 1px solid $color-border;
+  }
+}

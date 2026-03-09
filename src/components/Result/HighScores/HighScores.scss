@@ -1,0 +1,169 @@
+@use "../../../styles/variables" as *;
+@use "../../../styles/mixins" as *;
+
+// =============================================================================
+// High Scores Container
+// =============================================================================
+
+.high-scores {
+  @include flex-column;
+  align-items: center;
+  gap: $spacing-sm;
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+}
+
+.high-scores__title {
+  font-size: $font-size-md;
+  font-weight: $font-weight-semibold;
+  color: $color-text-secondary;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin: 0;
+  flex-shrink: 0;
+}
+
+.high-scores__empty {
+  font-size: $font-size-sm;
+  color: $color-text-muted;
+  text-align: center;
+  margin: $spacing-lg 0;
+}
+
+// =============================================================================
+// Header
+// =============================================================================
+
+.high-scores__header {
+  display: grid;
+  grid-template-columns: 60px 1fr 1fr 60px 70px;
+  gap: $spacing-xs;
+  width: 100%;
+  padding: 0 $spacing-sm;
+  flex-shrink: 0;
+
+  .high-scores__col {
+    font-size: $font-size-xxs;
+    color: $color-text-muted;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+    text-align: center;
+
+    &--rank {
+      text-align: left;
+    }
+
+    &--score {
+      text-align: right;
+    }
+  }
+}
+
+// =============================================================================
+// List
+// =============================================================================
+
+.high-scores__list {
+  @include flex-column;
+  gap: $spacing-xs;
+  width: 100%;
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+}
+
+// =============================================================================
+// Row
+// =============================================================================
+
+.high-scores__row {
+  display: grid;
+  grid-template-columns: 60px 1fr 1fr 60px 70px;
+  gap: $spacing-xs;
+  align-items: center;
+  padding: $spacing-xs $spacing-sm;
+  background-color: $color-bg-tertiary;
+  border-radius: $border-radius-sm;
+  border: 1px solid $color-border;
+
+  &--current {
+    border-color: $color-accent-warning;
+    background-color: rgba($color-accent-warning, 0.1);
+  }
+}
+
+// =============================================================================
+// Columns
+// =============================================================================
+
+.high-scores__col {
+  @include flex-column;
+  align-items: center;
+  gap: 2px;
+  min-width: 0;
+
+  &--rank {
+    align-items: flex-start;
+  }
+
+  &--stat {
+    align-items: center;
+  }
+
+  &--combo {
+    flex-direction: row;
+    justify-content: center;
+    gap: $spacing-xs;
+  }
+
+  &--score {
+    align-items: flex-end;
+  }
+}
+
+// =============================================================================
+// Cell Content
+// =============================================================================
+
+.high-scores__rank {
+  font-family: "Orbitron", "Courier New", monospace;
+  font-size: $font-size-sm;
+  font-weight: $font-weight-bold;
+  color: $color-accent-warning;
+}
+
+.high-scores__date {
+  font-size: 10px;
+  color: $color-text-muted;
+}
+
+.high-scores__percent {
+  font-size: $font-size-sm;
+  font-weight: $font-weight-semibold;
+  color: $color-text-primary;
+}
+
+.high-scores__detail {
+  font-size: 10px;
+  color: $color-text-muted;
+}
+
+.high-scores__combo-value {
+  font-family: "Orbitron", "Courier New", monospace;
+  font-size: $font-size-sm;
+  font-weight: $font-weight-bold;
+  color: $color-text-primary;
+}
+
+.high-scores__combo-icon {
+  font-size: $font-size-sm;
+  line-height: 1;
+}
+
+.high-scores__score-value {
+  font-family: "Orbitron", "Courier New", monospace;
+  font-size: $font-size-md;
+  font-weight: $font-weight-bold;
+  color: $color-accent-primary;
+}

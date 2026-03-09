@@ -1,73 +1,68 @@
-# React + TypeScript + Vite
+# Flag & Capital Quiz
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A mobile-first quiz app to practice and master world flags and country capitals.
 
-Currently, two official plugins are available:
+Test live on [Vercel](https://capital-quiz.vercel.app/).
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Features
 
-## React Compiler
+### Gameplay
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- **Combined challenge**: For each country, guess both the flag and the capital
+- **Self-validation**: Players judge their own answers (correct/incorrect)
+- **Lives system**: Start with 5 lives, lose one on each wrong capital answer
+- **Win/Lose conditions**: Win by answering all countries correctly, lose when lives reach 0
 
-## Expanding the ESLint configuration
+### Scoring
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- Base points equal to capital difficulty level (1-5)
+- **Flag multipliers**: Harder flags give bonus multipliers (up to x3 for difficulty 5)
+- **Combo system**: Consecutive correct answers add combo bonus to each score
+- Wrong answers on easy flags (level 1) apply a x0.75 penalty
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+### Progress Tracking
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+- Failed countries are added back to the pool for another attempt
+- Game continues until all countries are mastered or lives run out
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+## Tech Stack
+
+| Technology       | Purpose                           |
+| ---------------- | --------------------------------- |
+| **React 18**     | UI framework                      |
+| **TypeScript**   | Type-safe development             |
+| **Vite**         | Fast build tool & dev server      |
+| **Sass**         | Custom styling (no UI libraries)  |
+| **localStorage** | Data persistence (scores & stats) |
+| **Vercel**       | Deployment & hosting              |
+
+## Getting Started
+
+```bash
+# Install dependencies
+npm install
+
+# Start development server
+npm run dev
+
+# Build for production
+npm run build
+
+# Preview production build
+npm run preview
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## Project Structure
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
 ```
+src/
+├── components/     # React components
+├── contexts/       # Game state management (GameContext)
+├── utils/          # Helper functions & scoring logic
+├── styles/         # Sass stylesheets
+└── countries.ts    # Countries data with difficulty levels
+```
+
+## License
+
+MIT

@@ -1,0 +1,525 @@
+@use "../../styles/variables" as *;
+@use "../../styles/mixins" as *;
+
+// =============================================================================
+// Question Container
+// =============================================================================
+
+.question {
+  @include flex-column;
+  width: 100%;
+  height: 100%;
+  padding: $spacing-md;
+  padding-top: env(safe-area-inset-top, $spacing-md);
+  padding-bottom: env(safe-area-inset-bottom, $spacing-md);
+  overflow: hidden;
+}
+
+// =============================================================================
+// Header
+// =============================================================================
+
+.question__header {
+  @include flex-between;
+  flex-shrink: 0;
+  margin-top: $spacing-md;
+  padding-bottom: $spacing-md;
+  gap: $spacing-sm;
+}
+
+.question__stat {
+  @include flex-column;
+  align-items: center;
+  min-width: 60px;
+}
+
+.question__stat-label {
+  font-size: $font-size-xs;
+  color: $color-text-muted;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.question__stat-value {
+  font-size: $font-size-lg;
+  font-weight: $font-weight-bold;
+
+  &--score {
+    color: $color-accent-primary;
+  }
+
+  &--combo {
+    font-family: "Orbitron", "Courier New", monospace;
+    font-size: $font-size-xl;
+    color: $color-text-muted;
+    transition: all $transition-fast;
+    text-shadow: none;
+
+    &[data-active="true"] {
+      color: $color-accent-warning;
+      text-shadow:
+        0 0 10px rgba($color-accent-warning, 0.6),
+        0 0 20px rgba($color-accent-warning, 0.4);
+      animation: comboPulse 0.5s ease-out;
+    }
+  }
+}
+
+.question__lives {
+  @include flex-center;
+  gap: $spacing-xs;
+  font-size: $font-size-lg;
+}
+
+.question__heart {
+  line-height: 1;
+}
+
+// =============================================================================
+// Main Content
+// =============================================================================
+
+.question__main {
+  @include card;
+  @include flex-column;
+  align-items: center;
+  flex: 1;
+  width: 100%;
+  padding: $spacing-lg;
+  gap: $spacing-md;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.question__content {
+  @include flex-column;
+  align-items: center;
+  gap: $spacing-md;
+  width: 100%;
+  padding: $spacing-md 0;
+  flex: 1;
+}
+
+// Animation for new elements appearing from bottom
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// Animation for text reveal with unblur and zoom in
+@keyframes revealText {
+  from {
+    opacity: 0;
+    filter: blur(12px);
+    transform: scale(0.8);
+  }
+  to {
+    opacity: 1;
+    filter: blur(0);
+    transform: scale(1);
+  }
+}
+
+.question__flag {
+  max-width: 100%;
+  max-height: 35vh;
+  width: auto;
+  height: auto;
+  border-radius: $border-radius-sm;
+  box-shadow: $shadow-md;
+  object-fit: contain;
+  animation: slideUp 0.3s ease-out;
+}
+
+.question__prompt {
+  font-size: $font-size-lg;
+  color: $color-text-secondary;
+  text-align: center;
+  animation: slideUp 0.3s ease-out;
+  margin: $spacing-sm 0;
+}
+
+.question__country {
+  font-size: $font-size-xl;
+  font-weight: $font-weight-bold;
+  color: $color-text-primary;
+  text-align: center;
+}
+
+.question__answer {
+  font-size: $font-size-xl;
+  font-weight: $font-weight-bold;
+  color: $color-accent-primary;
+  text-align: center;
+  padding: $spacing-sm $spacing-md;
+  background-color: $color-bg-tertiary;
+  border-radius: $border-radius-md;
+}
+
+// =============================================================================
+// Actions
+// =============================================================================
+
+.question__actions {
+  @include flex-column;
+  flex-shrink: 0;
+  gap: $spacing-sm;
+  width: 100%;
+  padding-top: $spacing-md;
+  padding-bottom: $spacing-lg;
+}
+
+// =============================================================================
+// Action Buttons
+// =============================================================================
+
+.action-button {
+  @include button-base;
+  @include flex-center;
+  width: 100%;
+  height: 96px;
+  font-size: $font-size-xl;
+  border-radius: $border-radius-md;
+
+  &--small {
+    height: auto;
+    flex: 1;
+  }
+
+  &--primary {
+    background-color: $color-bg-secondary;
+    color: $color-text-primary;
+    border: 1px solid $color-border;
+
+    &:hover:not(:disabled) {
+      background-color: lighten($color-bg-secondary, 5%);
+    }
+
+    &:active:not(:disabled) {
+      transform: scale(0.98);
+    }
+  }
+
+  &--success {
+    background-color: $color-accent-success;
+    color: $color-bg-primary;
+
+    &:active:not(:disabled) {
+      transform: scale(0.98);
+    }
+  }
+
+  &--error {
+    background-color: $color-accent-error;
+    color: $color-bg-primary;
+    font-size: $font-size-xl;
+    &:active:not(:disabled) {
+      transform: scale(0.98);
+    }
+  }
+}
+
+.action-buttons-row {
+  display: flex;
+  gap: $spacing-sm;
+
+  .action-button {
+    flex: 1;
+  }
+}
+
+// =============================================================================
+// Country Result
+// =============================================================================
+
+.question__country-result {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  width: 100%;
+  min-height: 80px; // Reserve space for multi-line country names
+}
+
+.question__country-name {
+  font-size: $font-size-2xl;
+  font-weight: $font-weight-bold;
+  text-align: center;
+  text-transform: uppercase;
+  animation: revealText 0.6s ease-out;
+
+  &--pending {
+    color: $color-text-primary;
+  }
+
+  &--success {
+    color: $color-accent-success;
+    text-shadow: 0 0 8px rgba($color-accent-success, 0.5);
+  }
+
+  &--error {
+    color: $color-accent-error;
+    text-shadow: 0 0 8px rgba($color-accent-error, 0.5);
+  }
+}
+
+.question__multiplier-badge {
+  display: flex;
+  align-items: center;
+  gap: $spacing-sm;
+  position: absolute;
+  right: $spacing-md;
+  bottom: 0;
+  animation: slideUp 0.3s ease-out 0.1s both;
+}
+
+.question__multiplier-label,
+.question__multiplier-value {
+  font-family: "Permanent Marker", cursive;
+  font-size: $font-size-lg;
+  font-weight: $font-weight-bold;
+  color: $color-accent-warning;
+  text-shadow: 0 0 6px rgba($color-accent-warning, 0.4);
+}
+
+.question__multiplier-label {
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+// =============================================================================
+// Separator
+// =============================================================================
+
+.question__separator {
+  width: 90%;
+  height: 2px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    $color-accent-primary,
+    $color-accent-success,
+    $color-accent-primary,
+    transparent
+  );
+  margin: $spacing-md 0;
+  animation: slideUp 0.3s ease-out;
+}
+
+// =============================================================================
+// Capital Result
+// =============================================================================
+
+.question__capital-name {
+  font-size: $font-size-2xl;
+  font-weight: $font-weight-bold;
+  text-align: center;
+  text-transform: uppercase;
+  animation: revealText 0.6s ease-out;
+  margin: $spacing-sm 0;
+
+  &--pending {
+    color: $color-text-primary;
+  }
+
+  &--success {
+    color: $color-accent-success;
+    text-shadow: 0 0 8px rgba($color-accent-success, 0.5);
+  }
+
+  &--error {
+    color: $color-accent-error;
+    text-shadow: 0 0 8px rgba($color-accent-error, 0.5);
+  }
+}
+
+// =============================================================================
+// Summary & Points Calculation
+// =============================================================================
+
+.question__summary {
+  width: 100%;
+  margin-top: auto;
+  padding-top: $spacing-md;
+}
+
+.question__points-calc {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.question__points-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  gap: $spacing-xs;
+}
+
+.question__points-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 45px;
+}
+
+.question__points-value {
+  font-family: "Orbitron", "Courier New", monospace;
+  font-size: $font-size-lg;
+  font-weight: $font-weight-bold;
+  color: $color-text-primary;
+  background-color: $color-bg-tertiary;
+  border: 1px solid $color-border;
+  border-radius: $border-radius-sm;
+  padding: $spacing-xs $spacing-sm;
+  min-width: 40px;
+  text-align: center;
+
+  .question__points-item--total & {
+    color: $color-accent-success;
+    background-color: rgba($color-accent-success, 0.2);
+    border-color: $color-accent-success;
+  }
+}
+
+.question__points-label {
+  font-size: $font-size-xs;
+  color: $color-text-muted;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  margin-top: $spacing-xs;
+}
+
+.question__points-operator {
+  font-family: "Orbitron", "Courier New", monospace;
+  font-size: $font-size-lg;
+  font-weight: $font-weight-bold;
+  color: $color-text-muted;
+  padding-top: $spacing-xs;
+}
+
+.question__points-lost {
+  @include flex-center;
+  padding: $spacing-sm;
+  font-size: $font-size-md;
+  color: $color-accent-error;
+  background-color: rgba($color-accent-error, 0.15);
+  border-radius: $border-radius-md;
+}
+
+// =============================================================================
+// Breaking Heart Animation
+// =============================================================================
+
+.question__heart-break {
+  position: fixed;
+  top: 65%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 100;
+  pointer-events: none;
+}
+
+.question__heart-half {
+  position: absolute;
+  font-size: 300px;
+  line-height: 1;
+  animation-duration: 2s;
+  animation-timing-function: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  animation-fill-mode: forwards;
+
+  &--left {
+    clip-path: inset(0 50% 0 0);
+    animation-name: heartBreakLeft;
+  }
+
+  &--right {
+    clip-path: inset(0 0 0 50%);
+    animation-name: heartBreakRight;
+  }
+}
+
+@keyframes heartBreakLeft {
+  0% {
+    transform: translate(-50%, -50%) scale(0) rotate(0deg);
+    opacity: 1;
+  }
+  20% {
+    transform: translate(-50%, -50%) scale(1) rotate(0deg);
+    opacity: 1;
+  }
+  40% {
+    transform: translate(-50%, -50%) scale(1) rotate(-15deg);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(-150%, -50%) rotate(-45deg);
+    opacity: 0;
+  }
+}
+
+@keyframes heartBreakRight {
+  0% {
+    transform: translate(-50%, -50%) scale(0) rotate(0deg);
+    opacity: 1;
+  }
+  20% {
+    transform: translate(-50%, -50%) scale(1) rotate(0deg);
+    opacity: 1;
+  }
+  40% {
+    transform: translate(-50%, -50%) scale(1) rotate(15deg);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(50%, -50%) rotate(45deg);
+    opacity: 0;
+  }
+}
+
+// =============================================================================
+// Countdown Bar & Summary Actions
+// =============================================================================
+
+.question__summary-actions {
+  @include flex-column;
+  gap: $spacing-sm;
+  width: 100%;
+  height: 96px;
+}
+
+.question__countdown {
+  width: 100%;
+  height: 8px;
+  background-color: $color-bg-tertiary;
+  border-radius: $border-radius-sm;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.question__countdown-bar {
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    $color-accent-primary,
+    $color-accent-success
+  );
+  border-radius: $border-radius-sm;
+  animation: countdown var(--countdown-duration, 5000ms) linear forwards;
+}
+
+@keyframes countdown {
+  from {
+    width: 0%;
+  }
+  to {
+    width: 100%;
+  }
+}

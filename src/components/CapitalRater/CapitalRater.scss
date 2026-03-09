@@ -1,0 +1,265 @@
+@use "../../styles/variables" as *;
+@use "../../styles/mixins" as *;
+
+.capital-rater {
+  @include flex-column;
+  height: 100vh;
+  width: 100%;
+  background-color: $color-bg-primary;
+  overflow: hidden;
+
+  &__header {
+    display: flex;
+    align-items: center;
+    gap: $spacing-lg;
+    padding: $spacing-md $spacing-lg;
+    background-color: $color-bg-secondary;
+    border-bottom: 1px solid $color-border;
+    flex-shrink: 0;
+
+    h1 {
+      font-size: $font-size-lg;
+      color: $color-text-primary;
+      margin: 0;
+      flex: 1;
+    }
+  }
+
+  &__stats {
+    display: flex;
+    gap: $spacing-lg;
+    font-size: $font-size-sm;
+    color: $color-text-muted;
+
+    span {
+      background: $color-bg-tertiary;
+      padding: $spacing-xs $spacing-sm;
+      border-radius: $border-radius-sm;
+    }
+  }
+
+  &__export-btn {
+    @include button-base;
+    padding: $spacing-sm $spacing-md;
+    background-color: $color-accent-success;
+    color: $color-text-primary;
+    border-radius: $border-radius-sm;
+    font-size: $font-size-sm;
+
+    &:disabled {
+      background-color: $color-bg-tertiary;
+      color: $color-text-muted;
+    }
+  }
+
+  &__json-panel {
+    display: flex;
+    gap: $spacing-md;
+    padding: $spacing-md $spacing-lg;
+    background-color: $color-bg-secondary;
+    border-bottom: 1px solid $color-border;
+    flex-shrink: 0;
+
+    textarea {
+      flex: 1;
+      height: 100px;
+      padding: $spacing-sm;
+      font-family: monospace;
+      font-size: $font-size-xs;
+      background-color: $color-bg-primary;
+      color: $color-text-primary;
+      border: 1px solid $color-border;
+      border-radius: $border-radius-sm;
+      resize: none;
+    }
+
+    button {
+      @include button-base;
+      padding: $spacing-sm $spacing-md;
+      background-color: $color-accent-primary;
+      color: $color-text-primary;
+      border-radius: $border-radius-sm;
+      align-self: flex-start;
+    }
+  }
+
+  &__controls {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: $spacing-xl;
+    padding: $spacing-md $spacing-lg;
+    background-color: $color-bg-tertiary;
+    border-bottom: 1px solid $color-border;
+    min-height: 80px;
+    flex-shrink: 0;
+  }
+
+  &__selected-info {
+    display: flex;
+    align-items: center;
+    gap: $spacing-md;
+
+    div {
+      @include flex-column;
+      gap: 2px;
+
+      strong {
+        font-size: $font-size-md;
+        color: $color-text-primary;
+      }
+
+      span {
+        font-size: $font-size-sm;
+        color: $color-accent-primary;
+      }
+    }
+  }
+
+  &__selected-flag {
+    width: 60px;
+    height: 40px;
+    object-fit: cover;
+    border-radius: $border-radius-sm;
+    border: 2px solid $color-accent-primary;
+  }
+
+  &__hint-move {
+    font-size: $font-size-sm;
+    color: $color-accent-primary;
+    margin-left: $spacing-lg;
+  }
+
+  &__hint {
+    font-size: $font-size-md;
+    color: $color-text-muted;
+    font-style: italic;
+  }
+
+  &__loading {
+    @include flex-center;
+    @include flex-column;
+    flex: 1;
+    gap: $spacing-md;
+
+    span {
+      font-size: 64px;
+      animation: pulse 1.5s infinite;
+    }
+
+    p {
+      color: $color-text-secondary;
+    }
+  }
+
+  &__lists {
+    display: flex;
+    flex: 1;
+    overflow: hidden;
+    padding: $spacing-md;
+    gap: $spacing-sm;
+  }
+
+  &__list {
+    @include flex-column;
+    flex: 1;
+    min-width: 0;
+    background-color: $color-bg-secondary;
+    border-radius: $border-radius-md;
+    overflow: hidden;
+
+    &:first-child {
+      flex: 1.5;
+    }
+  }
+
+  &__list-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: $spacing-sm $spacing-md;
+    background-color: $color-bg-tertiary;
+    border-bottom: 1px solid $color-border;
+    transition: all $transition-fast;
+
+    &.clickable {
+      cursor: pointer;
+      background-color: $color-accent-primary;
+
+      &:hover {
+        background-color: $color-accent-primary-hover;
+      }
+    }
+  }
+
+  &__list-title {
+    font-size: $font-size-md;
+    font-weight: $font-weight-semibold;
+    color: $color-text-primary;
+  }
+
+  &__list-count {
+    font-size: $font-size-sm;
+    color: $color-text-muted;
+    background-color: $color-bg-primary;
+    padding: 2px 8px;
+    border-radius: 10px;
+  }
+
+  &__list-items {
+    @include flex-column;
+    flex: 1;
+    overflow-y: auto;
+    padding: $spacing-xs;
+    gap: $spacing-xs;
+  }
+
+  &__item {
+    display: flex;
+    align-items: center;
+    gap: $spacing-sm;
+    padding: $spacing-xs $spacing-sm;
+    background-color: $color-bg-primary;
+    border-radius: $border-radius-sm;
+    cursor: pointer;
+    transition: all $transition-fast;
+    border: 2px solid transparent;
+
+    &:hover {
+      background-color: $color-bg-tertiary;
+    }
+
+    &.selected {
+      border-color: $color-accent-primary;
+      background-color: rgba($color-accent-primary, 0.15);
+    }
+  }
+
+  &__item-flag {
+    width: 24px;
+    height: 16px;
+    object-fit: cover;
+    border-radius: 2px;
+    flex-shrink: 0;
+  }
+
+  &__item-capital {
+    font-size: $font-size-xs;
+    color: $color-text-primary;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.1);
+    opacity: 0.7;
+  }
+}

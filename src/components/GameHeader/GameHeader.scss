@@ -1,0 +1,174 @@
+@use "../../styles/variables" as *;
+@use "../../styles/mixins" as *;
+
+// =============================================================================
+// Game Header Container
+// =============================================================================
+
+.game-header {
+  @include flex-column;
+  align-items: center;
+  flex-shrink: 0;
+  margin-top: $spacing-lg;
+  padding-bottom: 0;
+}
+
+// =============================================================================
+// Top Row (Stats, Score, Combo)
+// =============================================================================
+
+.game-header__row {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  width: 100%;
+}
+
+// =============================================================================
+// Left Section (Capitals & Flags text lines)
+// =============================================================================
+
+.game-header__left {
+  @include flex-column;
+  gap: $spacing-sm;
+  min-width: 130px;
+}
+
+.game-header__stat-line {
+  display: grid;
+  grid-template-columns: auto auto;
+  align-items: center;
+  gap: $spacing-sm;
+}
+
+.game-header__stat-label {
+  text-align: left;
+  font-size: $font-size-xs;
+  color: $color-text-muted;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.game-header__stat-value {
+  font-size: $font-size-sm;
+  color: $color-text-secondary;
+  font-family: "Orbitron", "Courier New", monospace;
+
+  display: flex;
+  align-items: center;
+  gap: $spacing-xs;
+}
+
+.game-header__stat-primary {
+  font-size: $font-size-md;
+  font-weight: $font-weight-bold;
+  color: $color-text-secondary;
+}
+
+.game-header__stat-secondary {
+  font-size: $font-size-xs;
+  font-weight: $font-weight-normal;
+  color: $color-text-muted;
+}
+
+// =============================================================================
+// Center Section (Score)
+// =============================================================================
+
+.game-header__center {
+  @include flex-column;
+  align-items: center;
+  justify-content: center;
+}
+
+.game-header__score-label {
+  font-size: $font-size-xs;
+  color: $color-text-muted;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.game-header__score-value {
+  font-family: "Orbitron", "Courier New", monospace;
+
+  font-size: $font-size-2xl;
+  font-weight: $font-weight-bold;
+  color: $color-accent-primary;
+  line-height: 1.2;
+}
+
+// =============================================================================
+// Right Section (Combo)
+// =============================================================================
+
+.game-header__right {
+  @include flex-column;
+  align-items: center;
+  justify-content: center;
+  min-width: 80px;
+}
+
+.game-header__combo-label {
+  font-size: $font-size-xs;
+  color: $color-text-muted;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.game-header__combo-value {
+  font-family: "Orbitron", "Courier New", monospace;
+  font-size: $font-size-xl;
+  color: $color-text-muted;
+  transition: all $transition-normal;
+  text-shadow: none;
+
+  &[data-active="true"] {
+    color: $color-accent-warning;
+    text-shadow:
+      0 0 10px rgba($color-accent-warning, 0.6),
+      0 0 20px rgba($color-accent-warning, 0.4);
+    animation: comboPulse 0.5s ease-out;
+  }
+}
+
+@keyframes comboPulse {
+  0% {
+    transform: scale(3);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+// =============================================================================
+// Lives Row
+// =============================================================================
+
+.game-header__lives {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  width: 80%;
+  padding: $spacing-sm $spacing-md;
+  background-color: $color-bg-tertiary;
+  border: 1px solid $color-border;
+  border-radius: $border-radius-md;
+  transform: translateY(50%);
+  z-index: 10;
+}
+
+.game-header__heart {
+  font-size: $font-size-xl;
+  line-height: 1;
+  transition:
+    transform $transition-fast,
+    opacity $transition-fast;
+
+  &--active {
+    transform: scale(1);
+  }
+
+  &--empty {
+    opacity: 0.4;
+    filter: grayscale(1);
+  }
+}
