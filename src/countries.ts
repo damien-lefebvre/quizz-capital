@@ -1314,4 +1314,11 @@ export const countries: Country[] = [
     flagLevel: 5,
     capitalLevel: 14,
   },
+  {
+    name: "Taiwan",
+    capital: "Taipei",
+    iso: "tw",
+    flagLevel: 4,
+    capitalLevel: 6,
+  },
 ];
