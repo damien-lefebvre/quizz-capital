@@ -23,7 +23,6 @@ interface GameSummaryProps {
 
 export function GameSummary({
   capitalsFound,
-  capitalsTotal,
   flagsCorrect,
   flagsTotal,
   failedCountries,
