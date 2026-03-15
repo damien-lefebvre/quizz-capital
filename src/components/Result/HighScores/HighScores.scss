@@ -143,8 +143,11 @@
 }
 
 .high-scores__percent {
+  font-family: "Orbitron", "Courier New", monospace;
+
   font-size: $font-size-sm;
   font-weight: $font-weight-semibold;
+  font-variant-numeric: tabular-nums;
   color: $color-text-primary;
 }
 
@@ -155,8 +158,11 @@
 }
 
 .high-scores__fraction-primary {
+  font-family: "Orbitron", "Courier New", monospace;
+
   font-size: $font-size-sm;
   font-weight: $font-weight-bold;
+  font-variant-numeric: tabular-nums;
   color: $color-text-primary;
 }
 

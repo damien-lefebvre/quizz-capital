@@ -105,9 +105,6 @@ export function HighScores({ scores, currentRecordId }: HighScoresProps) {
                       <span className="high-scores__fraction-primary">
                         {record.capitalsFound}
                       </span>
-                      <span className="high-scores__fraction-secondary">
-                        /{record.capitalsAttempted}
-                      </span>
                     </span>
                   </div>
 

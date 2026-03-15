@@ -60,14 +60,9 @@ export function GameHeader() {
           <div className="game-header__stat-line">
             <span className="game-header__stat-value">
               {gameStarted ? (
-                <>
-                  <span className="game-header__stat-primary">
-                    {stats.capitalsFound}
-                  </span>
-                  <span className="game-header__stat-secondary">
-                    /{stats.flagsAsked}
-                  </span>
-                </>
+                <span className="game-header__stat-primary">
+                  {stats.capitalsFound}
+                </span>
               ) : (
                 "-"
               )}

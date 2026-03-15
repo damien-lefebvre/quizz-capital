@@ -52,9 +52,6 @@ export function GameSummary({
         <div className="game-summary__stat">
           <span className="game-summary__stat-fraction">
             <span className="game-summary__stat-primary">{capitalsFound}</span>
-            <span className="game-summary__stat-secondary">
-              /{capitalsTotal}
-            </span>
           </span>
           <span className="game-summary__stat-label">Capitales</span>
         </div>
