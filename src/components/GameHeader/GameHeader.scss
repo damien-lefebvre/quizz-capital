@@ -184,17 +184,25 @@
 // Lives Row
 // =============================================================================
 
+.game-header__lives-row {
+  display: grid;
+  grid-template-columns: auto 70% auto;
+  align-items: stretch;
+  width: 100%;
+  transform: translateY(50%);
+  z-index: 10;
+  gap: $spacing-sm;
+}
+
 .game-header__lives {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: 70%;
+  flex: 1;
   padding: $spacing-sm $spacing-md;
   background-color: $color-bg-tertiary;
   border: 1px solid $color-border;
   border-radius: $border-radius-md;
-  transform: translateY(50%);
-  z-index: 10;
 }
 
 .game-header__heart {
@@ -211,5 +219,33 @@
   &--empty {
     opacity: 0.4;
     filter: grayscale(1);
+  }
+}
+
+.game-header__button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 $spacing-sm;
+  background-color: $color-bg-tertiary;
+  border: 1px solid $color-border;
+  border-radius: $border-radius-md;
+  color: $color-text-muted;
+  font-size: $font-size-lg;
+  cursor: pointer;
+  transition: all $transition-fast;
+
+  &:hover {
+    background-color: $color-bg-secondary;
+    color: $color-text-primary;
+    border-color: $color-text-muted;
+  }
+
+  &:active {
+    transform: rotate(-180deg);
+  }
+
+  &:first-of-type {
+    visibility: hidden;
   }
 }

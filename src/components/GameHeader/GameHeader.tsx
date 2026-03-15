@@ -69,7 +69,7 @@ function getBestRank(
 // =============================================================================
 
 export function GameHeader() {
-  const { score, combo, life, stats } = useGame();
+  const { score, combo, life, stats, reset } = useGame();
   const { getTopScores, getFirstTryScores, getRecentScores, history } =
     useGameHistory();
 
@@ -178,15 +178,33 @@ export function GameHeader() {
       </div>
 
       {/* Lives row */}
-      <div className="game-header__lives">
-        {Array.from({ length: 5 }, (_, i) => (
-          <span
-            key={i}
-            className={`game-header__heart ${i < life ? "game-header__heart--active" : "game-header__heart--empty"}`}
-          >
-            {i < life ? "❤️" : "🖤"}
-          </span>
-        ))}
+      <div className="game-header__lives-row">
+        <button
+          className="game-header__button"
+          //          onClick={() =}
+          aria-label="Accéder aux statistiques"
+          title="Statistiques"
+        >
+          ↻
+        </button>
+        <div className="game-header__lives">
+          {Array.from({ length: 5 }, (_, i) => (
+            <span
+              key={i}
+              className={`game-header__heart ${i < life ? "game-header__heart--active" : "game-header__heart--empty"}`}
+            >
+              {i < life ? "❤️" : "🖤"}
+            </span>
+          ))}
+        </div>
+        <button
+          className="game-header__button"
+          onClick={reset}
+          aria-label="Recommencer la partie"
+          title="Recommencer"
+        >
+          ↻
+        </button>
       </div>
     </header>
   );

@@ -232,6 +232,28 @@
   .action-button {
     flex: 1;
   }
+
+  &--weighted {
+    .action-button {
+      flex: 4;
+
+      &--undo {
+        flex: 1;
+      }
+    }
+  }
+}
+
+.action-button--undo {
+  background-color: transparent;
+  color: $color-accent-error;
+  border: 1px solid $color-accent-error;
+  font-size: $font-size-2xl;
+
+  &:active:not(:disabled) {
+    transform: scale(0.98);
+    background-color: rgba($color-accent-error, 0.1);
+  }
 }
 
 // =============================================================================

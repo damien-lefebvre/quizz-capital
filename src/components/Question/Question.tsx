@@ -30,7 +30,7 @@ const FLAG_MULTIPLIERS: Record<number, number> = {
 
 const FLAG_WRONG_MULTIPLIER_LEVEL_1 = 0.75;
 const SUMMARY_DELAY_SUCCESS_MS = 5000;
-const SUMMARY_DELAY_ERROR_MS = 50000;
+const SUMMARY_DELAY_ERROR_MS = 5000;
 
 function calculateMultiplier(flagLevel: number, foundFlag: boolean): number {
   if (flagLevel === 1) {
@@ -90,6 +90,27 @@ export function Question() {
   const handleRevealCapital = useCallback(() => {
     setStep("CapitalResult");
   }, []);
+
+  const handleUndoFlag = useCallback(() => {
+    setFoundFlag(false);
+  }, []);
+
+  const handleUndoCapital = useCallback(() => {
+    // Clear existing timer
+    if (timerRef.current) {
+      clearTimeout(timerRef.current);
+    }
+    setFoundCapital(false);
+    setComboAtAnswer(0);
+    // Restart timer with error duration
+    timerRef.current = setTimeout(() => {
+      nextCountry({ foundFlag, foundCapital: false });
+      setStep("FlagQuestion");
+      setFoundFlag(false);
+      setFoundCapital(false);
+      setComboAtAnswer(0);
+    }, SUMMARY_DELAY_ERROR_MS);
+  }, [nextCountry, foundFlag]);
 
   const handleCapitalResult = useCallback(
     (correct: boolean) => {
@@ -297,12 +318,23 @@ export function Question() {
 
     if (step === "CapitalQuestion") {
       return (
-        <button
-          className="action-button action-button--primary"
-          onClick={handleRevealCapital}
-        >
-          Révéler
-        </button>
+        <div className="action-buttons-row action-buttons-row--weighted">
+          <button
+            className="action-button action-button--primary"
+            onClick={handleRevealCapital}
+          >
+            Révéler
+          </button>
+          {foundFlag && (
+            <button
+              className="action-button action-button--undo"
+              onClick={handleUndoFlag}
+              aria-label="Annuler le résultat du drapeau"
+            >
+              ↩
+            </button>
+          )}
+        </div>
       );
     }
 
@@ -347,6 +379,7 @@ export function Question() {
           <div className="question__countdown">
             <div
               className="question__countdown-bar"
+              key={foundCapital ? "success" : "error"}
               style={
                 {
                   "--countdown-duration": `${countdownDuration}ms`,
@@ -354,12 +387,25 @@ export function Question() {
               }
             />
           </div>
-          <button
-            className="action-button action-button--primary action-button--small"
-            onClick={handleManualNext}
+          <div
+            className={`action-buttons-row${foundCapital ? " action-buttons-row--weighted" : ""}`}
           >
-            {!foundCapital && life <= 1 ? "Résultat" : "Question suivante"}
-          </button>
+            <button
+              className="action-button action-button--primary action-button--small"
+              onClick={handleManualNext}
+            >
+              {!foundCapital && life <= 1 ? "Résultat" : "Question suivante"}
+            </button>
+            {foundCapital && (
+              <button
+                className="action-button action-button--undo action-button--small"
+                onClick={handleUndoCapital}
+                aria-label="Annuler le résultat de la capitale"
+              >
+                ↩
+              </button>
+            )}
+          </div>
         </div>
       );
     }
