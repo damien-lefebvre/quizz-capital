@@ -5,12 +5,6 @@ import { useCallback } from "react";
 // Types
 // =============================================================================
 
-export interface FailedCountryRecord {
-  iso: string;
-  name: string;
-  capital: string;
-}
-
 export interface GameRecord {
   id: string;
   date: string;
@@ -19,8 +13,13 @@ export interface GameRecord {
   capitalsAttempted: number;
   flagsFound: number;
   flagsAttempted: number;
-  failedCountries: FailedCountryRecord[];
+  /** ISO codes of countries where the capital was incorrectly guessed */
+  failedCountriesIso: string[];
   maxCombo: number;
+  /** List of ISO codes for capitals that were correctly guessed */
+  capitalsSuccessful?: string[];
+  /** List of ISO codes where the flag was incorrectly guessed */
+  flagsFailed?: string[];
 }
 
 // =============================================================================
@@ -62,10 +61,39 @@ export function useGameHistory() {
     setHistory([]);
   }, [setHistory]);
 
+  /**
+   * Calculate stats for a specific capital (by ISO code).
+   * Returns the number of times it was encountered and success rate.
+   */
+  const getCapitalStats = useCallback(
+    (iso: string): { encounters: number; successRate: number } => {
+      let successes = 0;
+      let failures = 0;
+
+      for (const game of history) {
+        // Count successes
+        if (game.capitalsSuccessful?.includes(iso)) {
+          successes++;
+        }
+        // Count failures (capital was wrong = country ISO is in failedCountriesIso)
+        if (game.failedCountriesIso?.includes(iso)) {
+          failures++;
+        }
+      }
+
+      const encounters = successes + failures;
+      const successRate = encounters > 0 ? (successes / encounters) * 100 : 0;
+
+      return { encounters, successRate };
+    },
+    [history],
+  );
+
   return {
     history,
     addGame,
     getTopScores,
     clearHistory,
+    getCapitalStats,
   };
 }

@@ -414,6 +414,35 @@
 }
 
 // =============================================================================
+// Error Stats (shown when capital is wrong and has enough history)
+// =============================================================================
+
+.question__error-stats {
+  display: grid;
+  grid-template-columns: 3fr 1fr;
+  align-items: center;
+  gap: $spacing-lg;
+  padding: $spacing-md $spacing-lg;
+  background-color: rgba($color-accent-error, 0.1);
+  border: 1px solid rgba($color-accent-error, 0.3);
+  border-radius: $border-radius-md;
+  animation: slideUp 0.3s ease-out;
+  font-size: $font-size-md;
+  font-weight: $font-weight-medium;
+  color: $color-accent-error;
+}
+
+.question__error-stat {
+  font-family: "Orbitron", "Courier New", monospace;
+  font-weight: $font-weight-bold;
+  text-align: center;
+  background-color: rgba($color-accent-error, 0.2);
+  border: 1px solid rgba($color-accent-error, 0.5);
+  border-radius: $border-radius-sm;
+  padding: $spacing-xs $spacing-sm;
+}
+
+// =============================================================================
 // Breaking Heart Animation
 // =============================================================================
 

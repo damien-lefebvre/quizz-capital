@@ -1,5 +1,6 @@
-import { useState, useCallback, useEffect, useRef } from "react";
+import { useState, useCallback, useEffect, useRef, useMemo } from "react";
 import { useGame } from "../../contexts";
+import { useGameHistory } from "../../hooks";
 import { getFlagUrl } from "../../utils";
 import { GameHeader } from "../GameHeader";
 import "./Question.scss";
@@ -29,7 +30,7 @@ const FLAG_MULTIPLIERS: Record<number, number> = {
 
 const FLAG_WRONG_MULTIPLIER_LEVEL_1 = 0.75;
 const SUMMARY_DELAY_SUCCESS_MS = 5000;
-const SUMMARY_DELAY_ERROR_MS = 3000;
+const SUMMARY_DELAY_ERROR_MS = 50000;
 
 function calculateMultiplier(flagLevel: number, foundFlag: boolean): number {
   if (flagLevel === 1) {
@@ -42,12 +43,21 @@ function calculateMultiplier(flagLevel: number, foundFlag: boolean): number {
 // Component
 // =============================================================================
 
+const MIN_ENCOUNTERS_FOR_STATS = 10;
+
 export function Question() {
   const { currentCountry, nextCountry, combo, life } = useGame();
+  const { getCapitalStats } = useGameHistory();
   const [step, setStep] = useState<QuestionStep>("FlagQuestion");
   const [foundFlag, setFoundFlag] = useState(false);
   const [foundCapital, setFoundCapital] = useState(false);
   const [comboAtAnswer, setComboAtAnswer] = useState(0);
+
+  // Get historical stats for current capital
+  const capitalStats = useMemo(
+    () => getCapitalStats(currentCountry.iso),
+    [getCapitalStats, currentCountry.iso],
+  );
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const flagUrl = getFlagUrl(currentCountry.iso);
@@ -218,14 +228,35 @@ export function Question() {
                 </div>
               </div>
             ) : (
-              <div className="question__heart-break">
-                <span className="question__heart-half question__heart-half--left">
-                  💔
-                </span>
-                <span className="question__heart-half question__heart-half--right">
-                  💔
-                </span>
-              </div>
+              <>
+                <div className="question__error-stats">
+                  <div className="question__error-label">Difficulté</div>
+                  <div className="question__error-stat">
+                    {currentCountry.capitalLevel}
+                  </div>
+                  {capitalStats.encounters >= MIN_ENCOUNTERS_FOR_STATS ? (
+                    <>
+                      <div className="question__error-label">
+                        Taux de réussite
+                      </div>
+                      <div className="question__error-stat">
+                        {Math.round(capitalStats.successRate)
+                          .toString()
+                          .padStart(2, " ")}
+                        %
+                      </div>
+                    </>
+                  ) : null}
+                </div>
+                <div className="question__heart-break">
+                  <span className="question__heart-half question__heart-half--left">
+                    💔
+                  </span>
+                  <span className="question__heart-half question__heart-half--right">
+                    💔
+                  </span>
+                </div>
+              </>
             )}
           </div>
         )}

@@ -10,7 +10,16 @@ import "./Result.scss";
 // =============================================================================
 
 export function Result() {
-  const { score, stats, maxCombo, failedCountries, status, reset } = useGame();
+  const {
+    score,
+    stats,
+    maxCombo,
+    failedCountries,
+    capitalsSuccessful,
+    flagsFailed,
+    status,
+    reset,
+  } = useGame();
   const { addGame, getTopScores } = useGameHistory();
   const hasSavedRef = useRef(false);
 
@@ -25,14 +34,20 @@ export function Result() {
       capitalsAttempted: stats.flagsAsked,
       flagsFound: stats.flagsCorrect,
       flagsAttempted: stats.flagsAsked,
-      failedCountries: failedCountries.map((c) => ({
-        iso: c.iso,
-        name: c.name,
-        capital: c.capital,
-      })),
+      failedCountriesIso: failedCountries.map((c) => c.iso),
       maxCombo,
+      capitalsSuccessful,
+      flagsFailed,
     });
-  }, [addGame, score.points, stats, failedCountries, maxCombo]);
+  }, [
+    addGame,
+    score.points,
+    stats,
+    failedCountries,
+    maxCombo,
+    capitalsSuccessful,
+    flagsFailed,
+  ]);
 
   // Get top 5 scores (includes the game we just saved)
   const topScores = getTopScores(10);

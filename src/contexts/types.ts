@@ -32,6 +32,10 @@ export interface GameContextValue {
   maxCombo: number;
   stats: Stats;
   failedCountries: Country[];
+  /** ISO codes of capitals correctly guessed in this game */
+  capitalsSuccessful: string[];
+  /** ISO codes where the flag was incorrectly guessed */
+  flagsFailed: string[];
 
   // Methods
   nextCountry: (result: NextCountryResult) => void;

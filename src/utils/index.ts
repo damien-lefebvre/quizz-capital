@@ -5,3 +5,8 @@ export {
   preloadFlags,
   flagMap,
 } from "./flags";
+
+export {
+  runStorageMigrations,
+  getCurrentStorageVersion,
+} from "./storageMigrations";

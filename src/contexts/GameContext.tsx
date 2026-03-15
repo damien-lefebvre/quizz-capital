@@ -108,6 +108,8 @@ export function GameProvider({ children }: GameProviderProps) {
     return removeCountryFromPool(initialPool, currentCountry);
   });
   const [failedCountries, setFailedCountries] = useState<Country[]>([]);
+  const [capitalsSuccessful, setCapitalsSuccessful] = useState<string[]>([]);
+  const [flagsFailed, setFlagsFailed] = useState<string[]>([]);
 
   /**
    * Pick next country from pool or refill from failed countries.
@@ -154,7 +156,15 @@ export function GameProvider({ children }: GameProviderProps) {
         flagsCorrect: prev.flagsCorrect + (foundFlag ? 1 : 0),
       }));
 
+      // Track flag failures
+      if (!foundFlag) {
+        setFlagsFailed((prev) => [...prev, currentCountry.iso]);
+      }
+
       if (foundCapital) {
+        // Track successful capitals
+        setCapitalsSuccessful((prev) => [...prev, currentCountry.iso]);
+
         // Correct answer - calculate points
         const newCombo = combo + 1;
         const multiplier = calculateMultiplier(
@@ -203,6 +213,8 @@ export function GameProvider({ children }: GameProviderProps) {
     setCurrentCountry(firstCountry);
     setPool(removeCountryFromPool(initialPool, firstCountry));
     setFailedCountries([]);
+    setCapitalsSuccessful([]);
+    setFlagsFailed([]);
     setLife(INITIAL_LIVES);
     setScore({ points: 0 });
     setStatus("playing");
@@ -221,6 +233,8 @@ export function GameProvider({ children }: GameProviderProps) {
       maxCombo,
       stats,
       failedCountries,
+      capitalsSuccessful,
+      flagsFailed,
       nextCountry,
       reset,
     }),
@@ -233,6 +247,8 @@ export function GameProvider({ children }: GameProviderProps) {
       maxCombo,
       stats,
       failedCountries,
+      capitalsSuccessful,
+      flagsFailed,
       nextCountry,
       reset,
     ],
