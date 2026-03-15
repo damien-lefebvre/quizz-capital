@@ -4,26 +4,64 @@ import { AnimatedScore } from "../AnimatedScore";
 import "./GameHeader.scss";
 
 // =============================================================================
+// Types
+// =============================================================================
+
+type RankCategory = "first-try" | "total" | "recent";
+
+interface RankResult {
+  rank: number;
+  category: RankCategory;
+}
+
+// =============================================================================
 // Helper Functions
 // =============================================================================
 
-function getCurrentRank(
+function getRankInList(
   currentScore: number,
-  topScores: { score: number }[],
+  scores: { score: number }[],
 ): number | null {
   if (currentScore <= 0) return null;
 
-  // Find where current score would rank (1-indexed)
   let rank = 1;
-  for (const record of topScores) {
+  for (const record of scores) {
     if (currentScore > record.score) {
       break;
     }
     rank++;
   }
 
-  // Only return rank if it's in top 5
   return rank <= 5 ? rank : null;
+}
+
+function getBestRank(
+  currentScore: number,
+  isFirstTryOfDay: boolean,
+  topScores: { score: number }[],
+  firstTryScores: { score: number }[],
+  recentScores: { score: number }[],
+): RankResult | null {
+  // Priority: first-try > total > recent
+  // Check first-try only if this is the first game of the day
+  if (isFirstTryOfDay) {
+    const firstTryRank = getRankInList(currentScore, firstTryScores);
+    if (firstTryRank !== null) {
+      return { rank: firstTryRank, category: "first-try" };
+    }
+  }
+
+  const totalRank = getRankInList(currentScore, topScores);
+  if (totalRank !== null) {
+    return { rank: totalRank, category: "total" };
+  }
+
+  const recentRank = getRankInList(currentScore, recentScores);
+  if (recentRank !== null) {
+    return { rank: recentRank, category: "recent" };
+  }
+
+  return null;
 }
 
 // =============================================================================
@@ -32,11 +70,31 @@ function getCurrentRank(
 
 export function GameHeader() {
   const { score, combo, life, stats } = useGame();
-  const { getTopScores } = useGameHistory();
+  const { getTopScores, getFirstTryScores, getRecentScores, history } =
+    useGameHistory();
 
-  // Calculate current rank in top 10
+  // Get scores for each category
   const topScores = getTopScores(10);
-  const currentRank = getCurrentRank(score.points, topScores);
+  const firstTryScores = getFirstTryScores(10);
+  const recentScores = getRecentScores(10);
+
+  // Check if this is the first game of the day
+  const today = new Date();
+  const todayKey = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, "0")}-${String(today.getDate()).padStart(2, "0")}`;
+  const isFirstTryOfDay = !history.some((record) => {
+    const recordDate = new Date(record.date);
+    const recordKey = `${recordDate.getFullYear()}-${String(recordDate.getMonth() + 1).padStart(2, "0")}-${String(recordDate.getDate()).padStart(2, "0")}`;
+    return recordKey === todayKey;
+  });
+
+  // Calculate best rank across all categories
+  const rankResult = getBestRank(
+    score.points,
+    isFirstTryOfDay,
+    topScores,
+    firstTryScores,
+    recentScores,
+  );
 
   // Check if game has started (at least one question asked)
   const gameStarted = stats.flagsAsked > 0;
@@ -89,9 +147,12 @@ export function GameHeader() {
         {/* Center section - Score */}
         <div className="game-header__center">
           <div className="game-header__score-label-container">
-            {currentRank && (
-              <span key={currentRank} className="game-header__rank">
-                #{currentRank}
+            {rankResult && (
+              <span
+                key={`${rankResult.rank}-${rankResult.category}`}
+                className={`game-header__rank game-header__rank--${rankResult.category}`}
+              >
+                #{rankResult.rank}
               </span>
             )}
             <span className="game-header__score-label">Score</span>

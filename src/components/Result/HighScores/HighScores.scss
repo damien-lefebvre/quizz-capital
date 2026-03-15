@@ -14,14 +14,99 @@
   min-height: 0;
 }
 
-.high-scores__title {
-  font-size: $font-size-md;
+// =============================================================================
+// Tabs
+// =============================================================================
+
+.high-scores__tabs {
+  display: flex;
+  width: 100%;
+  gap: $spacing-md;
+  flex-shrink: 0;
+}
+
+.high-scores__tab {
+  flex: 1;
+  position: relative;
+  font-size: $font-size-sm;
   font-weight: $font-weight-semibold;
-  color: $color-text-secondary;
   text-transform: uppercase;
   letter-spacing: 0.5px;
-  margin: 0;
-  flex-shrink: 0;
+  padding: $spacing-sm;
+  background: $color-bg-tertiary;
+  border: 1px solid $color-border;
+  border-radius: $border-radius-sm;
+  cursor: pointer;
+  transition: all $transition-fast;
+  text-align: center;
+
+  &:hover:not(.high-scores__tab--active) {
+    background: lighten($color-bg-secondary, 5%);
+    border-color: $color-text-muted;
+  }
+
+  &:active {
+    transform: scale(0.98);
+  }
+
+  // Color variants
+  &--first-try {
+    color: $color-text-muted;
+
+    &.high-scores__tab--active {
+      color: $color-accent-success;
+      border-color: $color-accent-success;
+      background: rgba($color-accent-success, 0.1);
+      box-shadow: 0 0 8px rgba($color-accent-success, 0.3);
+    }
+  }
+
+  &--total {
+    color: $color-text-muted;
+
+    &.high-scores__tab--active {
+      color: $color-accent-warning;
+      border-color: $color-accent-warning;
+      background: rgba($color-accent-warning, 0.1);
+      box-shadow: 0 0 8px rgba($color-accent-warning, 0.3);
+    }
+  }
+
+  &--three-months {
+    color: $color-text-muted;
+
+    &.high-scores__tab--active {
+      color: $color-accent-primary;
+      border-color: $color-accent-primary;
+      background: rgba($color-accent-primary, 0.1);
+      box-shadow: 0 0 8px rgba($color-accent-primary, 0.3);
+    }
+  }
+}
+
+.high-scores__tab-rank {
+  position: absolute;
+  right: $spacing-xs;
+  bottom: 0;
+  font-family: "Orbitron", "Courier New", monospace;
+  font-size: $font-size-md;
+  font-weight: $font-weight-bold;
+
+  &--first-try {
+    color: $color-accent-success;
+  }
+
+  &--total {
+    color: $color-accent-warning;
+  }
+
+  &--three-months {
+    color: $color-accent-primary;
+  }
+}
+
+.high-scores__tab-label {
+  // Label styling if needed
 }
 
 .high-scores__empty {
@@ -37,7 +122,7 @@
 
 .high-scores__header {
   display: grid;
-  grid-template-columns: 40px 60px 1fr 1fr 60px 70px;
+  grid-template-columns: 40px 60px 1fr 1fr 60px 50px;
   gap: $spacing-xs;
   width: 100%;
   padding: 0 $spacing-sm;
@@ -79,7 +164,7 @@
 
 .high-scores__row {
   display: grid;
-  grid-template-columns: 40px 60px 1fr 1fr 60px 70px;
+  grid-template-columns: 40px 60px 1fr 1fr 60px 50px;
   gap: $spacing-xs;
   align-items: center;
   padding: $spacing-xs $spacing-sm;
@@ -134,7 +219,19 @@
   font-family: "Orbitron", "Courier New", monospace;
   font-size: $font-size-sm;
   font-weight: $font-weight-bold;
-  color: $color-accent-warning;
+
+  // Color variants based on active tab
+  &--first-try {
+    color: $color-accent-success;
+  }
+
+  &--total {
+    color: $color-accent-warning;
+  }
+
+  &--three-months {
+    color: $color-accent-primary;
+  }
 }
 
 .high-scores__date {

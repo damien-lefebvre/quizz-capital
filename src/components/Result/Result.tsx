@@ -20,7 +20,7 @@ export function Result() {
     status,
     reset,
   } = useGame();
-  const { addGame, getTopScores } = useGameHistory();
+  const { addGame, getTopScores, history } = useGameHistory();
   const hasSavedRef = useRef(false);
 
   // Save game on mount (only once)
@@ -103,11 +103,13 @@ export function Result() {
         </section>
 
         {/* Separator */}
-        <div className="result__separator" />
+        <div className="result__separator">
+          <span className="result__separator-title">Meilleurs scores</span>
+        </div>
 
         {/* High Scores Section - 50% */}
         <section className="result__section result__section--highscores">
-          <HighScores scores={topScores} currentRecordId={currentRecordId} />
+          <HighScores history={history} currentRecordId={currentRecordId} />
         </section>
       </main>
 

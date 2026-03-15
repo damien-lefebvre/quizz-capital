@@ -110,8 +110,20 @@
   font-family: "Orbitron", "Courier New", monospace;
   font-size: $font-size-md;
   font-weight: $font-weight-bold;
-  color: $color-accent-warning;
   animation: rankAppear 0.4s ease-out;
+
+  // Color variants based on category
+  &--first-try {
+    color: $color-accent-success;
+  }
+
+  &--total {
+    color: $color-accent-warning;
+  }
+
+  &--recent {
+    color: $color-accent-primary;
+  }
 }
 
 @keyframes rankAppear {
