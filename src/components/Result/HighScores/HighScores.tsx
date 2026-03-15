@@ -1,5 +1,6 @@
 import { useState, useMemo } from "react";
 import type { GameRecord } from "../../../hooks";
+import { countries } from "../../../countries";
 import "./HighScores.scss";
 
 // =============================================================================
@@ -33,10 +34,9 @@ function formatPercent(found: number, total: number): string {
 
 function isPerfectScore(record: GameRecord): boolean {
   return (
+    record.capitalsFound === countries.length &&
     record.capitalsFound === record.capitalsAttempted &&
-    record.flagsFound === record.flagsAttempted &&
-    record.capitalsAttempted > 0 &&
-    record.flagsAttempted > 0
+    record.flagsFound === record.flagsAttempted
   );
 }
 
@@ -226,7 +226,9 @@ export function HighScores({ history, currentRecordId }: HighScoresProps) {
                     <>
                       {/* Capitals */}
                       <div className="high-scores__col high-scores__col--stat">
-                        <span className="high-scores__fraction">
+                        <span
+                          className={`high-scores__fraction ${record.capitalsFound === countries.length ? `high-scores__fraction--perfect high-scores__fraction--${activeTab}` : ""}`}
+                        >
                           <span className="high-scores__fraction-primary">
                             {record.capitalsFound}
                           </span>
@@ -235,7 +237,9 @@ export function HighScores({ history, currentRecordId }: HighScoresProps) {
 
                       {/* Flags */}
                       <div className="high-scores__col high-scores__col--stat">
-                        <span className="high-scores__percent">
+                        <span
+                          className={`high-scores__percent ${record.flagsFound === record.flagsAttempted && record.flagsAttempted > 0 ? `high-scores__percent--perfect high-scores__percent--${activeTab}` : ""}`}
+                        >
                           {formatPercent(
                             record.flagsFound,
                             record.flagsAttempted,
@@ -245,7 +249,9 @@ export function HighScores({ history, currentRecordId }: HighScoresProps) {
 
                       {/* Combo */}
                       <div className="high-scores__col high-scores__col--combo">
-                        <span className="high-scores__combo-value">
+                        <span
+                          className={`high-scores__combo-value ${record.maxCombo === countries.length ? `high-scores__combo-value--perfect high-scores__combo-value--${activeTab}` : ""}`}
+                        >
                           {record.maxCombo}
                         </span>
                         <span className="high-scores__combo-icon">🔥</span>

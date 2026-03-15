@@ -318,3 +318,57 @@
   text-align: center;
   letter-spacing: 0.5px;
 }
+
+// =============================================================================
+// Perfect Values (individual stat highlighting)
+// =============================================================================
+
+.high-scores__fraction--perfect {
+  .high-scores__fraction-primary {
+    text-shadow: 0 0 4px currentColor;
+  }
+
+  &.high-scores__fraction--first-try .high-scores__fraction-primary {
+    color: $color-accent-success;
+  }
+
+  &.high-scores__fraction--total .high-scores__fraction-primary {
+    color: $color-accent-warning;
+  }
+
+  &.high-scores__fraction--three-months .high-scores__fraction-primary {
+    color: $color-accent-primary;
+  }
+}
+
+.high-scores__percent--perfect {
+  text-shadow: 0 0 4px currentColor;
+
+  &.high-scores__percent--first-try {
+    color: $color-accent-success;
+  }
+
+  &.high-scores__percent--total {
+    color: $color-accent-warning;
+  }
+
+  &.high-scores__percent--three-months {
+    color: $color-accent-primary;
+  }
+}
+
+.high-scores__combo-value--perfect {
+  text-shadow: 0 0 4px currentColor;
+
+  &.high-scores__combo-value--first-try {
+    color: $color-accent-success;
+  }
+
+  &.high-scores__combo-value--total {
+    color: $color-accent-warning;
+  }
+
+  &.high-scores__combo-value--three-months {
+    color: $color-accent-primary;
+  }
+}
